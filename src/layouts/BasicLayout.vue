@@ -13,7 +13,7 @@
   >
     <template #menuHeaderRender>
       <router-link :to="{ path: '/' }">
-        <img src="https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg" />
+        <img src="@/assets/logo.svg" />
         <h1>Preview Pro</h1>
       </router-link>
     </template>
