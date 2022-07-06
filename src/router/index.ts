@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  LoginRoute
+  ...LoginRoute
 ];
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
