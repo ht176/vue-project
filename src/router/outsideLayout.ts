@@ -10,7 +10,7 @@ export const LoginRoute: Array<RouteRecordRaw> = [
     redirect: '/user/login',
     children: [
       {
-        path: '/login',
+        path: 'login',
         name: LOGIN_NAME,
         component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
         meta: {

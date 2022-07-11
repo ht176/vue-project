@@ -5,7 +5,7 @@
         <div class="login_left">
           <div>&nbsp;</div>
           <div class="login_img">
-            <img src="@/assets/login-img.png" style="width: 50%" />
+            <img src="@/assets/login/login-background.png" style="width: 50%" />
           </div>
           <div class="copyright"> Copyright &copy; 2022 信息技术有限公司 </div>
         </div>
@@ -48,7 +48,7 @@ body {
 </style>
 <style lang="less" scoped>
 .login_left {
-  background: url(../assets/login-background.png) #f1f6fc;
+  background: url(../assets/login/login-background.png) #f1f6fc;
   background-repeat: no-repeat;
   width: 100%;
   min-height: 100%;
