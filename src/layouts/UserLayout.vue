@@ -1,20 +1,15 @@
 <template>
   <div id="userLayout" :class="['user-layout-wrapper', isMobile && 'mobile']">
-    <a-row style="width: 100%; height: 100%">
-      <a-col :span="14" style="height: 100%">
-        <div class="login_left">
-          <div>&nbsp;</div>
-          <div class="login_img">
-            <img src="@/assets/login/login-background.png" style="width: 50%" />
-          </div>
-          <div class="copyright"> Copyright &copy; 2022 信息技术有限公司 </div>
-        </div>
+    <a-row class="login_bg">
+      <a-col :span="14" style="min-height: 100%">
+        <div class="copyright"> Copyright &copy; 2022 信息技术有限公司 </div>
       </a-col>
       <a-col :span="10">
         <div class="container">
           <div class="top">
             <div class="header">
-              <img src="@/assets/login-text.png" class="logo" alt="logo" />
+              <!-- <img src="@/assets/login-text.png" class="logo" alt="logo" /> -->
+              <div class="title"> XX部门管理系统 </div>
             </div>
           </div>
           <router-view /> </div
@@ -47,13 +42,14 @@ body {
 }
 </style>
 <style lang="less" scoped>
-.login_left {
+.login_bg {
+  position: relative;
   background: url(../assets/login/login-background.png) #f1f6fc;
   background-repeat: no-repeat;
   width: 100%;
   min-height: 100%;
-  background-size: 20%;
-  background-position: 50px 50px;
+  // background-size: 20%;
+  // background-position: 50px 50px;
 }
 #userLayout.user-layout-wrapper {
   height: 100%;
@@ -86,24 +82,6 @@ body {
       text-align: center;
 
       .header {
-        .badge {
-          position: absolute;
-          display: inline-block;
-          line-height: 1;
-          vertical-align: middle;
-          margin-left: -12px;
-          margin-top: -10px;
-          opacity: 0.8;
-        }
-
-        .logo {
-          width: 60%;
-          vertical-align: top;
-          margin-right: 16px;
-          border-style: none;
-          margin-bottom: 20px;
-        }
-
         .title {
           font-size: 33px;
           color: rgba(0, 0, 0, 0.85);
@@ -131,21 +109,13 @@ body {
   }
   .copyright {
     width: 100%;
-    height: 18px;
     font-size: 16px;
     font-family: Source Han Sans CN;
     font-weight: 400;
-    line-height: 27px;
-    color: #a5bad5;
-    opacity: 0.7;
+    color: #000;
     text-align: center;
     position: absolute;
-    bottom: 30px;
-  }
-  .login_img {
-    text-align: center;
-    vertical-align: middle;
-    padding-top: 150px;
+    bottom: 10px;
   }
 }
 </style>
