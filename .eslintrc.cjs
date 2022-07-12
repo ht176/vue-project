@@ -11,6 +11,16 @@ module.exports = {
     }
   ],
   rules: {
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'vue/max-attributes-per-line': [
+      2,
+      {
+        singleline: 7,
+        multiline: {
+          max: 1,
+          allowFirstLine: false
+        }
+      }
+    ]
   }
 };
