@@ -27,6 +27,7 @@
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useUserStore } from '@/store/modules/user';
 
 interface FormState {
   username: string;
@@ -40,9 +41,14 @@ const formState = reactive<FormState>({
   remember: true,
   loading: false
 });
-function handleSubmit() {
+
+const userStore = useUserStore();
+
+async function handleSubmit() {
   const { username, password } = formState;
   formState.loading = true;
+  const res = await userStore.login({ LoginName: username, Password: password });
+  console.log(123, res);
 }
 </script>
 <style lang="less" scoped>
