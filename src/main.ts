@@ -1,6 +1,11 @@
+// import './publicPath'
+// with polyfills
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
 import Antd from 'ant-design-vue';
+import { setupStore } from '@/store';
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
 import STable from '@surely-vue/table';
 
@@ -12,11 +17,16 @@ import '@surely-vue/table/dist/index.less';
 
 const app = createApp(App);
 
-app.use(createPinia());
-app.use(router);
-app.use(Antd);
-app.use(ProLayout);
-app.use(PageContainer);
-app.use(STable);
-
-app.mount('#app');
+function setupPlugins() {
+  app.use(Antd);
+  app.use(ProLayout);
+  app.use(PageContainer);
+  app.use(STable);
+}
+async function setupApp() {
+  setupStore(app);
+  app.use(router);
+  app.mount('#app');
+}
+setupPlugins();
+setupApp();

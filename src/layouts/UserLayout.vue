@@ -9,7 +9,7 @@
           <div class="top">
             <div class="header">
               <!-- <img src="@/assets/login-text.png" class="logo" alt="logo" /> -->
-              <div class="title"> XX部门管理系统 </div>
+              <div class="title"> XXXXXXCC </div>
             </div>
           </div>
           <router-view /> </div
@@ -83,11 +83,12 @@ body {
 
       .header {
         .title {
-          font-size: 33px;
-          color: rgba(0, 0, 0, 0.85);
+          font-size: 48px;
+          color: rgba(56, 56, 56, 0.85);
           font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
           font-weight: 600;
           position: relative;
+          margin-bottom: 60px;
         }
       }
     }
