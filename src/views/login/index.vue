@@ -6,7 +6,7 @@
     :label-col="{ span: 6 }"
     :wrapper-col="{ span: 13 }"
     autocomplete="off"
-    @submit.prevent="handleSubmit()"
+    @finish="onFinish"
   >
     <a-form-item label="用户名" name="username" :rules="[{ required: true, message: '请输入用户名' }]">
       <a-input v-model:value="formState.username" />
@@ -27,6 +27,7 @@
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/store/modules/user';
 
 interface FormState {
@@ -36,19 +37,26 @@ interface FormState {
   loading: boolean;
 }
 const formState = reactive<FormState>({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: 'j/yQVsWH34WEDmV8x+Qp9A==',
   remember: true,
   loading: false
 });
+const route = useRoute();
+const router = useRouter();
 
 const userStore = useUserStore();
 
-async function handleSubmit() {
+async function onFinish() {
   const { username, password } = formState;
   formState.loading = true;
-  const res = await userStore.login({ LoginName: username, Password: password });
-  console.log(123, res);
+  try {
+    await userStore.login({ LoginName: username, Password: password });
+    router.replace((route.query.redirect as string) ?? '/');
+  } catch (error) {
+    console.log('error');
+  }
+  formState.loading = false;
 }
 </script>
 <style lang="less" scoped>

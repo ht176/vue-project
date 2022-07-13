@@ -7,6 +7,11 @@ declare namespace API {
 
   /** 登录成功结果 */
   type LoginResult = {
-    token: string;
+    LoginId: string;
+    RName: Array;
+    Rid: Array;
+    Uid: string;
+    Uname: string;
+    codeList: Array;
   };
 }

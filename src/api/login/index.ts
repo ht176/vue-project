@@ -1,18 +1,18 @@
 import type { BaseResponse } from '@/utils/request';
 import { request } from '@/utils/request';
-import { encrypt } from '@/utils/helper/crypto';
+// import { encrypt } from '@/utils/helper/crypto';
 
 /**
  * @description 登录
  * @param {LoginParams} data
  * @returns
  */
-export function login(data: API.LoginParams) {
+export function login(params: API.LoginParams) {
   return request<BaseResponse<API.LoginResult>>(
     {
       url: '/api/Login/getLogin',
-      method: 'post',
-      data
+      method: 'get',
+      params
     },
     {
       isGetDataDirectly: false

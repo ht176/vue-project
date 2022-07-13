@@ -62,8 +62,7 @@ export const useUserStore = defineStore({
     async login(params: API.LoginParams) {
       try {
         const { data } = await login(params);
-        // this.setToken(data.token);
-        // return this.afterLogin();
+        this.setToken(data.LoginId);
       } catch (error) {
         return Promise.reject(error);
       }

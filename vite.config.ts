@@ -30,5 +30,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@ant-design/icons-vue', 'ant-design-vue']
+  },
+  define: {
+    'process.env': {}
   }
 });

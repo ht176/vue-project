@@ -58,26 +58,9 @@ service.interceptors.response.use(
       if (res.code === 11001 || res.code === 11002) {
         window.localStorage.clear();
         window.location.reload();
-        // to re-login
-        // Modal.confirm({
-        //   title: '警告',
-        //   content: res.message || '账号异常，您可以取消停留在该页上，或重新登录',
-        //   okText: '重新登录',
-        //   cancelText: '取消',
-        //   onOk: () => {
-        //     localStorage.clear();
-        //     window.location.reload();
-        //   }
-        // });
       }
-
-      // throw other
-      const error = new Error(res.message || UNKNOWN_ERROR) as Error & { code: any };
-      error.code = res.code;
-      return Promise.reject(error);
-    } else {
-      return res;
     }
+    return res;
   },
   (error) => {
     // 处理 422 或者 500 的错误异常提示
@@ -90,6 +73,7 @@ service.interceptors.response.use(
 
 export type Response<T = any> = {
   code: number;
+  success: boolean;
   message: string;
   data: T;
 };
@@ -109,12 +93,6 @@ export const request = async <T = any>(config: AxiosRequestConfig, options: Requ
     if (permCode && !useUserStore().perms.includes(permCode)) {
       return $message.error('你没有访问该接口的权限，请联系管理员！');
     }
-    const fullUrl = `${(isMock ? baseMockUrl : baseApiUrl) + config.url}`;
-    config.url = fullUrl.replace(/(?<!:)\/{2,}/g, '/');
-    // if (IS_PROD) {
-    //   // 保持api请求的协议与当前访问的站点协议一致
-    //   config.url.replace(/^https?:/g, location.protocol);
-    // }
     const res = await service.request(config);
     successMsg && $message.success(successMsg);
     errorMsg && $message.error(errorMsg);
