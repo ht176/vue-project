@@ -32,6 +32,7 @@
           {{ route.breadcrumbName }}
         </router-link>
       </template> -->
+      <MultiTab />
       <router-view style="background-color: #fff" v-slot="{ Component }">
         <component style="padding: 12px 12px 32px" :is="Component" />
       </router-view>
@@ -43,8 +44,9 @@
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { getMenuData, clearMenuItem, type RouteContextProps, WaterMark, GlobalFooter } from '@ant-design-vue/pro-layout';
-import { SmileOutlined, HeartOutlined } from '@ant-design/icons-vue';
+// import { SmileOutlined, HeartOutlined } from '@ant-design/icons-vue';
 import AvatarDropdown from './components/LayoutHeader/AvatarDropdown.vue';
+import MultiTab from './components/LayoutHeader/MultiTab.vue';
 
 const router = useRouter();
 const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
