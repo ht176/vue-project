@@ -17,12 +17,12 @@
         <h1>Preview Pro</h1>
       </router-link>
     </template>
+    <template #rightContentRender>
+      <AvatarDropdown></AvatarDropdown>
+    </template>
     <WaterMark v-bind="markConfig">
-      <template #rightContentRender>
-        <RightContent :current-user="currentUser" />
-      </template>
       <!-- custom breadcrumb itemRender  -->
-      <template #breadcrumbRender="{ route, params, routes }">
+      <!-- <template #breadcrumbRender="{ route, params, routes }">
         <span v-if="routes.indexOf(route) === routes.length - 1">
           <HeartOutlined />
           {{ route.breadcrumbName }}
@@ -31,16 +31,7 @@
           <SmileOutlined />
           {{ route.breadcrumbName }}
         </router-link>
-      </template>
-      <!-- <SettingDrawer v-model="proConfig" /> -->
-      <!-- <page-container :tabList="tabList" :tab-active-key="tabActive" @tabChange="tabChange">
-        <template #content>vdsc,吗，吗的陈水扁， </template>
-        <template #extra> sdfkklfsdl </template>
-        <template #extraContent> 范德萨， </template>
-        <router-view style="background-color: #fff" v-slot="{ Component }">
-          <component style="padding: 12px" :is="Component" />
-        </router-view>
-      </page-container> -->
+      </template> -->
       <router-view style="background-color: #fff" v-slot="{ Component }">
         <component style="padding: 12px 12px 32px" :is="Component" />
       </router-view>
@@ -50,9 +41,10 @@
 </template>
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { getMenuData, clearMenuItem, type RouteContextProps, WaterMark, GlobalFooter } from '@ant-design-vue/pro-layout';
 import { SmileOutlined, HeartOutlined } from '@ant-design/icons-vue';
-import { useRouter } from 'vue-router';
+import AvatarDropdown from './components/LayoutHeader/AvatarDropdown.vue';
 
 const router = useRouter();
 const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
@@ -94,25 +86,6 @@ watch(
     immediate: true
   }
 );
-// const tabList = reactive([
-//   {
-//     key: '1',
-//     tab: '颤三'
-//   },
-//   {
-//     key: '2',
-//     tab: '里斯'
-//   },
-//   {
-//     key: '3',
-//     tab: '王武'
-//   }
-// ]);
-// const tabActive = ref('1');
-// function tabChange(key: string) {
-//   tabActive.value = key;
-// }
-
 const markConfig = reactive({
   gapX: 100,
   gapY: 60,
