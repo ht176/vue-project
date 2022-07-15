@@ -8,7 +8,13 @@ import { Storage } from '@/utils/Storage';
 // import { logout, getInfo, permmenu } from '@/api/account';
 // import { generatorDynamicRouter } from '@/router/generator-router';
 // import { resetRouter } from '@/router';
-
+interface menuTab {
+  key: string;
+  title: string;
+  name: string;
+  path: string;
+  fullPath: string;
+}
 interface UserState {
   token: string;
   name: string;
@@ -17,6 +23,7 @@ interface UserState {
   perms: string[];
   menus: RouteRecordRaw[];
   userInfo: Partial<API.AdminUserInfo>;
+  multiTabs: Array<menuTab>;
 }
 
 export const useUserStore = defineStore({
@@ -27,7 +34,8 @@ export const useUserStore = defineStore({
     avatar: '',
     perms: [],
     menus: [],
-    userInfo: {}
+    userInfo: {},
+    multiTabs: []
   }),
   getters: {
     getToken(): string {
@@ -94,6 +102,13 @@ export const useUserStore = defineStore({
       wsStore.closeSocket();
       this.resetToken();
       resetRouter();
+    },
+    addMultiTab(tab: menuTab) {
+      debugger;
+      if (!this.multiTabs.find((e) => e.key === tab.key)) {
+        this.multiTabs.push(tab);
+      }
+      console.log('MultiTab', this.multiTabs);
     }
   }
 });

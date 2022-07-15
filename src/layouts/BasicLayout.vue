@@ -4,8 +4,6 @@
     v-model:selectedKeys="state.selectedKeys"
     v-model:openKeys="state.openKeys"
     :loading="loading"
-    :menu-data="menuData"
-    :breadcrumb="{ routes: breadcrumb }"
     disable-content-margin
     style="min-height: 100vh"
     iconfont-url="//at.alicdn.com/t/font_2804900_2sp8hxw3ln8.js"
@@ -32,7 +30,7 @@
           {{ route.breadcrumbName }}
         </router-link>
       </template> -->
-      <MultiTab />
+      <MultiTab :tabs="tabs" />
       <router-view style="background-color: #fff" v-slot="{ Component }">
         <component style="padding: 12px 12px 32px" :is="Component" />
       </router-view>
@@ -45,10 +43,13 @@ import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { getMenuData, clearMenuItem, type RouteContextProps, WaterMark, GlobalFooter } from '@ant-design-vue/pro-layout';
 // import { SmileOutlined, HeartOutlined } from '@ant-design/icons-vue';
+import { useUserStore } from '@/store/modules/user';
 import AvatarDropdown from './components/LayoutHeader/AvatarDropdown.vue';
 import MultiTab from './components/LayoutHeader/MultiTab.vue';
 
 const router = useRouter();
+const userStore = useUserStore();
+
 const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
 const state = reactive<Omit<RouteContextProps, 'menuData'>>({
@@ -62,16 +63,9 @@ const proConfig = ref({
   navTheme: 'dark',
   fixedHeader: true,
   fixSiderbar: true,
-  splitMenus: false
+  splitMenus: false,
+  menuData
 });
-const breadcrumb = computed(() =>
-  router.currentRoute.value.matched.concat().map((item) => {
-    return {
-      path: item.path,
-      breadcrumbName: item.meta.title || ''
-    };
-  })
-);
 const currentUser = reactive({
   nickname: 'Admin',
   avatar: 'A'
@@ -80,9 +74,13 @@ const currentUser = reactive({
 watch(
   router.currentRoute,
   () => {
+    console.log('router', router.currentRoute);
+
     const matched = router.currentRoute.value.matched.concat();
     state.selectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path);
     state.openKeys = matched.filter((r) => r.path !== router.currentRoute.value.path).map((r) => r.path);
+    const { meta, name, path, fullPath } = router.currentRoute.value;
+    userStore.addMultiTab({ key: name as string, title: meta.title as string, name: name as string, path, fullPath });
   },
   {
     immediate: true
@@ -93,6 +91,8 @@ const markConfig = reactive({
   gapY: 60,
   content: 'TEST'
 });
+
+const tabs = reactive(userStore.multiTabs);
 </script>
 <style lang="less" scoped>
 #app :deep(.ant-pro-pro-layout-watermark-wrapper) {
