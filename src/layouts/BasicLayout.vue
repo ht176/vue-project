@@ -1,14 +1,7 @@
 <template>
-  <pro-layout
-    v-model:collapsed="state.collapsed"
-    v-model:selectedKeys="state.selectedKeys"
-    v-model:openKeys="state.openKeys"
-    :loading="loading"
-    disable-content-margin
-    style="min-height: 100vh"
-    iconfont-url="//at.alicdn.com/t/font_2804900_2sp8hxw3ln8.js"
-    v-bind="proConfig"
-  >
+  <pro-layout v-model:collapsed="state.collapsed" v-model:selectedKeys="state.selectedKeys"
+    v-model:openKeys="state.openKeys" :loading="loading" disable-content-margin style="min-height: 100vh"
+    iconfont-url="//at.alicdn.com/t/font_2804900_2sp8hxw3ln8.js" v-bind="proConfig">
     <template #menuHeaderRender>
       <router-link :to="{ path: '/' }">
         <img src="@/assets/logo.svg" />
@@ -30,7 +23,7 @@
           {{ route.breadcrumbName }}
         </router-link>
       </template> -->
-      <MultiTab :tabs="tabs" />
+      <MultiTab :tabs="tabs" :activeKey="activeKey" @removeTab="test" />
       <router-view style="background-color: #fff" v-slot="{ Component }">
         <component style="padding: 12px 12px 32px" :is="Component" />
       </router-view>
@@ -70,6 +63,7 @@ const currentUser = reactive({
   nickname: 'Admin',
   avatar: 'A'
 });
+const activeKey = ref('')
 
 watch(
   router.currentRoute,
@@ -80,6 +74,7 @@ watch(
     state.selectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path);
     state.openKeys = matched.filter((r) => r.path !== router.currentRoute.value.path).map((r) => r.path);
     const { meta, name, path, fullPath } = router.currentRoute.value;
+    activeKey.value = name as string
     userStore.addMultiTab({ key: name as string, title: meta.title as string, name: name as string, path, fullPath });
   },
   {
@@ -93,11 +88,18 @@ const markConfig = reactive({
 });
 
 const tabs = reactive(userStore.multiTabs);
+
+function test(targetKey: string, lastIndex: number) {
+  console.log('targetKey', targetKey, lastIndex);
+  // userStore.addMultiTab({})
+  userStore.removeMultiTab(targetKey)
+}
 </script>
 <style lang="less" scoped>
 #app :deep(.ant-pro-pro-layout-watermark-wrapper) {
   padding-bottom: 32px;
 }
+
 .custom-footer {
   position: absolute;
   bottom: 0px;
@@ -106,6 +108,7 @@ const tabs = reactive(userStore.multiTabs);
   height: 32px;
   line-height: 32px;
   background: #f0f2f5;
+
   :deep(.ant-pro-global-footer-links) {
     margin-bottom: 0px;
   }

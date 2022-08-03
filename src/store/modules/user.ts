@@ -22,7 +22,7 @@ interface UserState {
   // like [ 'sys:user:add', 'sys:user:update' ]
   perms: string[];
   menus: RouteRecordRaw[];
-  userInfo: Partial<API.AdminUserInfo>;
+  // userInfo: Partial<API.AdminUserInfo>;
   multiTabs: Array<menuTab>;
 }
 
@@ -34,7 +34,7 @@ export const useUserStore = defineStore({
     avatar: '',
     perms: [],
     menus: [],
-    userInfo: {},
+    // userInfo: {},
     multiTabs: []
   }),
   getters: {
@@ -57,7 +57,7 @@ export const useUserStore = defineStore({
       this.avatar = this.token = this.name = '';
       this.perms = [];
       this.menus = [];
-      this.userInfo = {};
+      // this.userInfo = {};
       Storage.clear();
     },
     /** 登录成功保存token */
@@ -78,18 +78,18 @@ export const useUserStore = defineStore({
     /** 登录成功之后, 获取用户信息以及生成权限路由 */
     async afterLogin() {
       try {
-        const wsStore = useWsStore();
-        const [userInfo, { perms, menus }] = await Promise.all([getInfo(), permmenu()]);
-        this.perms = perms;
-        this.name = userInfo.name;
-        this.avatar = userInfo.headImg;
-        this.userInfo = userInfo;
-        // 生成路由
-        const generatorResult = generatorDynamicRouter(menus);
-        this.menus = generatorResult.menus.filter((item) => !item.meta?.hideInMenu);
-        !wsStore.client && wsStore.initSocket();
+        // const wsStore = useWsStore();
+        // const [userInfo, { perms, menus }] = await Promise.all([getInfo(), permmenu()]);
+        // this.perms = perms;
+        // this.name = userInfo.name;
+        // this.avatar = userInfo.headImg;
+        // this.userInfo = userInfo;
+        // // 生成路由
+        // const generatorResult = generatorDynamicRouter(menus);
+        // this.menus = generatorResult.menus.filter((item) => !item.meta?.hideInMenu);
+        // !wsStore.client && wsStore.initSocket();
 
-        return { menus, perms, userInfo };
+        // return { menus, perms, userInfo };
       } catch (error) {
         return Promise.reject(error);
         // return this.logout();
@@ -97,18 +97,23 @@ export const useUserStore = defineStore({
     },
     /** 登出 */
     async logout() {
-      await logout();
-      const wsStore = useWsStore();
-      wsStore.closeSocket();
-      this.resetToken();
-      resetRouter();
+      // await logout();
+      // const wsStore = useWsStore();
+      // wsStore.closeSocket();
+      // this.resetToken();
+      // resetRouter();
     },
     addMultiTab(tab: menuTab) {
-      debugger;
       if (!this.multiTabs.find((e) => e.key === tab.key)) {
         this.multiTabs.push(tab);
       }
       console.log('MultiTab', this.multiTabs);
+    },
+    removeMultiTab(key: string) {
+      console.log('remove', key);
+
+      let index = this.multiTabs.findIndex(e => e.key === key)
+      this.multiTabs.splice(index, 1)
     }
   }
 });
